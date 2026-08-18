@@ -51,7 +51,7 @@ Para melhorar a compreensão e preencher os valores nulos:
 
 - **`age`** → preenchida com a **média aparada** de todos os registros, por ser mais robusta a outliers.
 - **`embark_town`** e **`embarked`** → preenchidos como `"Não informado"`, por falta de informação.
-- **`deck`** → rotulado como `"Não Informado"`; futuramente pode ser identificado com um modelo de AM em aprendizado semi-supervisionado.
+- **`deck`** → rotulado como `"Não Informado"`; apesar de ser o foco desta analise, essa característica pode ser predita por um modelo de AM em aprendizado semi-supervisionado.
 
 ---
 
