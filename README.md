@@ -1,7 +1,16 @@
-# Analise exploratória dos dados de Titanic
+# Análise Exploratória dos Dados do Titanic
 
-Titanic é um _dataset_ popular, principalmente para projetos de aprendizado de máquina (AM). Tendo isso em mente, realizei uma pequena analise exploratória para entender como _dataset_ está organziado. A analise veio com a finalidade de saber se quanto mais cara for a passagem, mais houve chances de sobreviver ao afundamento do Titanic.
+Titanic é um _dataset_ popular, principalmente para projetos de aprendizado de máquina (AM). Tendo isso em mente, realizei uma pequena análise exploratória para entender como o _dataset_ está organizado.
 
+**Pergunta guia:** quanto mais cara a passagem, maior a chance de sobrevivência ao afundamento do Titanic?
+
+---
+
+## Informações do dataset
+
+O conjunto é formado por **891 registros** distintos, com **15 características** e um total de **869 valores vazios**.
+
+```
 RangeIndex: 891 entries, 0 to 890
 Data columns (total 15 columns):
  #   Column       Non-Null Count  Dtype   
@@ -23,59 +32,98 @@ Data columns (total 15 columns):
  14  alone        891 non-null    bool    
 dtypes: bool(2), category(2), float64(2), int64(4), object(5)
 memory usage: 80.7+ KB
-None
---------------------------------
-survived         0
-pclass           0
-sex              0
-age            177
-sibsp            0
-parch            0
-fare             0
-embarked         2
-class            0
-who              0
-adult_male       0
-deck           688
-embark_town      2
-alive            0
-alone            0
+```
 
-O conjunto é formado por 891 registros distintos, e possui 15 características. E possui ao todo 869 dados vazios.
-Para melhorar a compreensão e preencher os valores nulos; a idade (coluna _age_) dos passageiros que apareciam como vazias, foram preenchidas com a média aparada de todos, a média aparada foi escolhida por ser mais robusta a outliers; A demais, a cidade de embarque (coluna _embark_town_) e o embarque (coluna _embarked_) foram preenchido como "Não informado" por não tem informações desses dados; Igualmente, o deck (cabine) foi rotulado como "Não Informado" por não ter indicação de qual seja, mas futuramente pode ser identificado com um modelo de AM em um aprendizado semi-supervisionado.
+**Valores nulos por coluna:**
 
-         survived      pclass         age       sibsp       parch        fare
-count  891.000000  891.000000  891.000000  891.000000  891.000000  891.000000
-mean     0.383838    2.308642   29.613719    0.523008    0.381594   32.204208
-std      0.486592    0.836071   13.003148    1.102743    0.806057   49.693429
-min      0.000000    1.000000    0.420000    0.000000    0.000000    0.000000
-25%      0.000000    2.000000   22.000000    0.000000    0.000000    7.910400
-50%      0.000000    3.000000   29.269231    0.000000    0.000000   14.454200
-75%      1.000000    3.000000   35.000000    1.000000    0.000000   31.000000
-max      1.000000    3.000000   80.000000    8.000000    6.000000  512.329200
-Nota: Como foi aplicado a média aparada, a média da idade se aproxima da mediana.
+| Coluna      | Nulos |
+|-------------|-------|
+| age         | 177   |
+| embarked    | 2     |
+| deck        | 688   |
+| embark_town | 2     |
 
-<img width="590" height="481" alt="image" src="https://github.com/user-attachments/assets/0dd7a576-aa9a-4c9c-aece-69aefe4dc04f" />
-Em primeiro momento, não vemos nenhuma correção forte o suficiente para ser relevante para nossa pergunta, porém podemos observar que há uma correlação negativa entre o a classe da passagem (_pclas_) e a tarifa (_fare_).
+---
 
-Quando observamos, atráves do boxplot, a distribuição da idade e tarifa dos passageiros pela classe, percebemos que na primeira classe se concentra os passageiros mais velhos e que tiveram a tarifa maior.
-<img width="475" height="421" alt="image" src="https://github.com/user-attachments/assets/3c97d39b-8225-45df-a409-570c9f916ca1" />
-<img width="483" height="421" alt="image" src="https://github.com/user-attachments/assets/d6625597-cf1a-4ee8-b25f-8575af4387fe" />
+## Tratamento de dados
 
-Observando a quantidade de passageiros sobreviventes de cada classe, identificamos que houve mais sobreviventes da primeira classe, seguido da terceiro e a segunda foi a que menos teve sobreviventes:
-<img width="490" height="390" alt="image" src="https://github.com/user-attachments/assets/f2146f3e-50d2-4097-a2c0-8c13991e1250" />
+Para melhorar a compreensão e preencher os valores nulos:
 
-E apenas dos passageiros da teiceira classe apresentarem serem os segundos com mais sobreviventes, quando observa-se a média de sobrevivência de cada uma das classes, vemos que, em média, os pasageiros da segunda classe fora mais prospícios a sobreviventes, com uma média de quase 50%. Enquanto os da terceira classe obtiveram cerca de 25% de sobrevivência.
-First     0.629630
-Second    0.472826
-Third     0.242363
+- **`age`** → preenchida com a **média aparada** de todos os registros, por ser mais robusta a outliers.
+- **`embark_town`** e **`embarked`** → preenchidos como `"Não informado"`, por falta de informação.
+- **`deck`** → rotulado como `"Não Informado"`; futuramente pode ser identificado com um modelo de AM em aprendizado semi-supervisionado.
 
-Além disso, quando observamos essa informações, comparando o sexo dos passageiros, vemos que a média da idade dos homens é maior, mas as mulheres tem maiores tarifas, independente da classe.
-<img width="473" height="421" alt="image" src="https://github.com/user-attachments/assets/763dd62c-8c25-4cbc-a488-66bd21d09cc6" />
-<img width="476" height="421" alt="image" src="https://github.com/user-attachments/assets/a3aefdfa-6bb6-4f0c-a189-b392e97e49bb" />
+---
 
-E por fim, quando vemos a quantidade de sobreviventes, vemos que há mais mulheres sobreviventes em todas as classes do que os homens. Além da média de sobrevivência das mulheres está por cerca de 75%, enquanto dos homens é de um pouco menos de 20%
-<img width="510" height="390" alt="image" src="https://github.com/user-attachments/assets/d60894c2-108a-48be-9872-4dfc8e1bd1fb" />
+## Estatísticas descritivas
 
-female    0.742038
-male      0.188908
+|       | survived | pclass | age   | sibsp | parch | fare   |
+|-------|----------|--------|-------|-------|-------|--------|
+| count | 891      | 891    | 891   | 891   | 891   | 891    |
+| mean  | 0.38     | 2.31   | 29.61 | 0.52  | 0.38  | 32.20  |
+| std   | 0.49     | 0.84   | 13.00 | 1.10  | 0.81  | 49.69  |
+| min   | 0.00     | 1.00   | 0.42  | 0.00  | 0.00  | 0.00   |
+| 25%   | 0.00     | 2.00   | 22.00 | 0.00  | 0.00  | 7.91   |
+| 50%   | 0.00     | 3.00   | 29.27 | 0.00  | 0.00  | 14.45  |
+| 75%   | 1.00     | 3.00   | 35.00 | 1.00  | 0.00  | 31.00  |
+| max   | 1.00     | 3.00   | 80.00 | 8.00  | 6.00  | 512.33 |
+
+> Como foi aplicada a média aparada, a média da idade fica próxima da mediana.
+
+---
+
+## Correlações
+
+Não há correlações fortes o suficiente para responder diretamente à pergunta, mas há uma **correlação negativa entre classe (`pclass`) e tarifa (`fare`)**.
+
+<img width="590" alt="matriz de correlação" src="https://github.com/user-attachments/assets/0dd7a576-aa9a-4c9c-aece-69aefe4dc04f" />
+
+---
+
+## Idade e tarifa por classe
+
+Na primeira classe se concentram os passageiros mais velhos e com tarifas mais altas.
+
+<img width="475" alt="boxplot idade por classe" src="https://github.com/user-attachments/assets/3c97d39b-8225-45df-a409-570c9f916ca1" />
+<img width="483" alt="boxplot tarifa por classe" src="https://github.com/user-attachments/assets/d6625597-cf1a-4ee8-b25f-8575af4387fe" />
+
+---
+
+## Sobrevivência por classe
+
+Em número absoluto de sobreviventes, a ordem foi: **1ª classe > 3ª classe > 2ª classe**.
+
+<img width="490" alt="sobreviventes por classe" src="https://github.com/user-attachments/assets/f2146f3e-50d2-4097-a2c0-8c13991e1250" />
+
+Já em **taxa média de sobrevivência** por classe, o cenário muda:
+
+| Classe | Taxa de sobrevivência |
+|--------|------------------------|
+| First  | 62.96%                 |
+| Second | 47.28%                 |
+| Third  | 24.24%                 |
+
+---
+
+## Idade, tarifa e sobrevivência por sexo
+
+A idade média dos homens é maior, mas as mulheres pagam tarifas mais altas, independentemente da classe.
+
+<img width="473" alt="idade por sexo" src="https://github.com/user-attachments/assets/763dd62c-8c25-4cbc-a488-66bd21d09cc6" />
+<img width="476" alt="tarifa por sexo" src="https://github.com/user-attachments/assets/a3aefdfa-6bb6-4f0c-a189-b392e97e49bb" />
+
+Há mais mulheres sobreviventes que homens em **todas as classes**:
+
+<img width="510" alt="sobreviventes por sexo" src="https://github.com/user-attachments/assets/d60894c2-108a-48be-9872-4dfc8e1bd1fb" />
+
+| Sexo   | Taxa de sobrevivência |
+|--------|------------------------|
+| Female | 74.20%                 |
+| Male   | 18.89%                 |
+
+---
+
+## Conclusão
+
+- Passageiros da **primeira classe** tiveram maior probabilidade de sobrevivência do que os da **terceira classe**.
+- **Mulheres** tiveram muito mais chance de sobreviver do que **homens**, em todas as classes.
