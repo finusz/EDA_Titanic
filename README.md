@@ -2,7 +2,7 @@
 
 Titanic é um _dataset_ popular, principalmente para projetos de aprendizado de máquina (AM). Tendo isso em mente, realizei uma pequena análise exploratória para entender como o _dataset_ está organizado.
 
-**Pergunta guia:** quanto mais cara a passagem, maior a chance de sobrevivência ao afundamento do Titanic?
+Nesta analise, quis responder a pergunta "quanto mais cara a passagem do passageiro, maior a chance de sobrevivência ao afundamento do Titanic?"
 
 ---
 
